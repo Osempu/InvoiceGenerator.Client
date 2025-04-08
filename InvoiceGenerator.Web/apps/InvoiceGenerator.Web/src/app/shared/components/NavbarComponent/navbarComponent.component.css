@@ -1,0 +1,25 @@
+:host ::ng-deep .p-menubar{
+  display: flex;
+  justify-content: space-around;
+  margin-left: auto;
+  border: none;
+  margin: 0;
+  padding: 10px;
+}
+
+:host ::ng-deep p-menubarsub {
+  margin-left: auto;
+}
+
+:host ::ng-deep .pi{
+  margin-right: 10px;
+  margin-left: 10px;
+}
+
+.badge {
+  margin-left: 10px;
+}
+
+.p-menuitem-link {
+  align-items: center;
+}

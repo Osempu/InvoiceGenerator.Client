@@ -1,0 +1,144 @@
+<h3>Detalles del Cliente</h3>
+<div class="card flex align-items-center flex-column gap-5">
+  <p-panel class="w-7">
+    <ng-template pTemplate="header">
+      <div class="flex w-full align-items-center justify-content-between">
+        <h3 class="m-0">Información Personal</h3>
+        <p-button icon="pi pi-pencil" label="Editar" severity="contrast" outlined="false" size="small"
+          (onClick)="showCustomerEditForm()">
+        </p-button>
+      </div>
+    </ng-template>
+
+    <p><b>Nombre:</b> {{ this.customer()?.name }}</p>
+    <p><b>Descripción:</b> {{ this.customer()?.description }}</p>
+  </p-panel>
+
+  <!-- Adresses Container -->
+  @if(this.customer()?.addresses!.length > 0) {
+  <p-panel class="card  w-7">
+    <ng-template pTemplate="header">
+      <div class="flex w-full align-items-center justify-content-between">
+        <h3 class="m-0">Direcciones</h3>
+        <p-button icon="pi pi-plus" label="Agregar Direccion" severity="contrast" outlined="false" size="small"
+          (onClick)="showAddressEditForm()">
+        </p-button>
+      </div>
+    </ng-template>
+    @for(address of this.customer()?.addresses; track address.id) {
+    <p-panel class="address-panel">
+      <div class="flex align-items-center">
+        <b>Calle: </b> {{ address.street }} <b>CP: </b> {{address.postalCode}} {{address.city}} {{address.state}}
+        {{address.country}} {{ address.addressType}}
+        <p-button [outlined]="true" [style]="{'border': 'none'}" icon="pi pi-ellipsis-v" (onClick)="menu.toggle($event)"
+          class="ml-auto" severity="contrast">
+        </p-button>
+        <p-tieredMenu #menu [model]="items" [popup]="true" appendTo="body" />
+      </div>
+    </p-panel>
+    }
+  </p-panel>
+  }
+</div>
+
+<!-- Customer Edit Modal -->
+<div class="card flex justify-content-center">
+  <p-dialog header="Header" [(visible)]="customerEditFormvisible" [modal]="true" [style]="{ width: '30rem' }">
+    <ng-template pTemplate="header">
+      <div class="inline-flex align-items-center justify-content-center gap-2">
+        <span class="font-bold white-space-nowrap">
+          Información Personal
+        </span>
+      </div>
+    </ng-template>
+    <span class="p-text-secondary block mb-5">Actualiza la información del cliente.</span>
+    <form [formGroup]="customerForm" (ngSubmit)="onSubmit()">
+      <div class="flex align-items-center gap-3 mb-3">
+        <label for="name" class="font-semibold w-6rem"> Nombre </label>
+        <input pInputText id="name" class="flex-auto" autocomplete="off" formControlName="name" />
+      </div>
+      <div class="flex align-items-start gap-3 mb-5">
+        <label for="description" class="font-semibold w-6rem">Descripción</label>
+        <textarea rows="5" cols="30" pInputTextarea formControlName="description">
+            </textarea>
+      </div>
+      <!-- Footer -->
+      <ng-template pTemplate="footer">
+        <p-button label="Cancel" [text]="true" severity="secondary" (onClick)=" onSubmit()" />
+        <p-button label="Save" [outlined]="true" severity="secondary" (onClick)="customerEditFormvisible.set(false)" />
+      </ng-template>
+    </form>
+  </p-dialog>
+</div>
+
+<!-- Address Edit Modal -->
+<div class="card flex justify-content-center">
+  <p-dialog header="Header" [(visible)]="addressEditFormvisible" [modal]="true" [style]="{ width: '60%' }">
+    <ng-template pTemplate="header">
+      <div class="inline-flex align-items-center justify-content-center gap-2">
+        <span class="font-bold white-space-nowrap">
+          Direccion
+        </span>
+      </div>
+    </ng-template>
+
+    <span class="p-text-secondary block mb-5">Actualiza tu direccion.</span>
+
+    <form [formGroup]="customerForm" (ngSubmit)="onSubmit()">
+      <div class="formgrid grid">
+        <div class="field col-12 md:col-6">
+          <label for="firstname6">Calle</label>
+          <input id="firstname6" type="text"
+            class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
+        </div>
+        <div class="field col-12 md:col-6">
+          <label for="lastname6">No Ext/Int</label>
+          <input id="lastname6" type="text"
+            class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
+        </div>
+        <div class="field col-12">
+          <label for="address">Pais</label>
+          <textarea id="address" type="text" rows="4"
+            class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"></textarea>
+        </div>
+        <div class="field col-12 md:col-6">
+          <label for="city">Ciudad</label>
+          <input id="city" type="text"
+            class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
+        </div>
+        <div class="field col-12 md:col-3">
+          <label for="state">Estado</label>
+          <select id="state"
+            class="w-full text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round outline-none focus:border-primary"
+            style="appearance: auto">
+            <option>Arizona</option>
+            <option>California</option>
+            <option>Florida</option>
+            <option>Ohio</option>
+            <option>Washington</option>
+          </select>
+        </div>
+        <div class="field col-12 md:col-3">
+          <label for="zip">Codigo Postal</label>
+          <input id="zip" type="text"
+            class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
+        </div>
+        <div class="field col-12 md:col-3">
+          <label for="addressType">Tipo de Direccion</label>
+          <select id="addressType"
+            class="w-full text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round outline-none focus:border-primary"
+            style="appearance: auto">
+            <option>Principal</option>
+            <option>Facturacion</option>
+            <option>Envio</option>
+          </select>
+        </div>
+      </div>
+      <!-- Footer -->
+      <ng-template pTemplate="footer">
+        <p-button label="Cancel" [text]="true" severity="secondary" (onClick)=" onSubmit()" />
+        <p-button label="Save" [outlined]="true" severity="secondary" (onClick)="addressEditFormvisible.set(false)" />
+      </ng-template>
+    </form>
+  </p-dialog>
+</div>

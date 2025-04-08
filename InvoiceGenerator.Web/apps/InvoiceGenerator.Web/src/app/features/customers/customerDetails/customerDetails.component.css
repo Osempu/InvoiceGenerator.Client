@@ -1,0 +1,24 @@
+:host ::ng-deep .p-fieldset-legend {
+  border: none;
+  background-color: #fff;
+  font-size: 20pt;
+}
+
+:host ::ng-deep .p-panel-header {
+  background-color: #fff;
+  border-bottom: none;
+  font-size: 15pt;
+  padding-bottom: 5px;
+}
+
+:host ::ng-deep .address-panel .p-panel-header {
+  display: none;
+}
+
+:host ::ng-deep .address-panel .p-panel-content {
+  padding: 0.8rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15), 0 2px 4px rgba(0, 0, 0, 0.12);
+}
+

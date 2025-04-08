@@ -1,0 +1,50 @@
+<div class="container">
+  <div class="card">
+    <p-table
+        #dt2
+        [value]="customers()"
+        [tableStyle]="{ 'min-width': '50rem' }"
+        [loading]="isFetching()"
+        [showLoader]="true"
+        styleClass="p-datatable-sm"
+        [paginator]="true"
+        [rowsPerPageOptions]="[5, 10, 20]"
+        [rows]="10"
+        [globalFilterFields]="['type', 'tune']">
+        <ng-template pTemplate="caption">
+          <p-button iconPos="right" pRipple size="small" [outlined]="true" icon="pi pi-filter-slash" (onClick)="clear(dt2)" />
+          <a routerLink="/customers/create" pRipple>
+            <p-button label="Agregar Cliente" pRipple icon="pi pi-plus" size="small"/>
+          </a>
+        </ng-template>
+        <ng-template pTemplate="header">
+            <tr>
+                <th pSortableColumn="id" style="width:3%">Id
+                  <p-sortIcon field="id"></p-sortIcon>
+                </th>
+                <th pSortableColumn="name" style="width:15%">Name <p-sortIcon field="name"></p-sortIcon></th>
+                <th pSortableColumn="description" style="width:15%" >description <p-sortIcon field="description"></p-sortIcon></th>
+                <th style="width: 2%">Actions</th>
+            </tr>
+        </ng-template>
+        @if(customers()) {
+          <ng-template pTemplate="body" let-customer>
+            <tr>
+                <td><a [routerLink]="['/customer', customer.id]"> {{ customer.id }} </a></td>
+                <td>{{ customer.name }}</td>
+                <td>{{ customer.description }}</td>
+                <td>
+                    <p-button
+                    [outlined]="true"
+                    [style]="{'border': 'none'}"
+                    icon="pi pi-ellipsis-v"
+                    (onClick)="menu.toggle($event)">
+                    </p-button>
+                    <p-tieredMenu #menu [model]="items" [popup]="true" appendTo="body" (onShow)="getCustomer(customer.id)"/>
+                </td>
+            </tr>
+        </ng-template>
+        }
+    </p-table>
+  </div>
+</div>
